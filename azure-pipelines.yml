@@ -1,0 +1,36 @@
+trigger:
+  - main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  imageRepository: "youracr.azurecr.io/your-repo"
+  tag: "$(Build.BuildId)"
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        steps:
+          - task: Docker@2
+            displayName: "Build and Push app1"
+            inputs:
+              command: "buildAndPush"
+              repository: "$(imageRepository)/app1"
+              dockerfile: "$(Build.SourcesDirectory)/app1/Dockerfile"
+              tags: "$(tag)"
+              containerRegistry: "yourContainerRegistryServiceConnection"
+              buildContext: "$(Build.SourcesDirectory)/app1"
+              arguments: "--file $(Build.SourcesDirectory)/app1/Dockerfile"
+
+          - task: Docker@2
+            displayName: "Build and Push app2"
+            inputs:
+              command: "buildAndPush"
+              repository: "$(imageRepository)/app2"
+              dockerfile: "$(Build.SourcesDirectory)/app2/Dockerfile"
+              tags: "$(tag)"
+              containerRegistry: "yourContainerRegistryServiceConnection"
+              buildContext: "$(Build.SourcesDirectory)/app2"
+              arguments: "--file $(Build.SourcesDirectory)/app2/Dockerfile"

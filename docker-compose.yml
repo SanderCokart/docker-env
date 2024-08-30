@@ -1,0 +1,14 @@
+services:
+  app1:
+    build:
+      context: ./app1
+    env_file:
+      - ./app1/.env
+    ports:
+      - "3000:3000"
+
+  app2:
+    build:
+      context: ./app2
+    env_file:
+      - ./app2/.env
