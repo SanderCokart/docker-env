@@ -1,0 +1,6 @@
+services:
+  app1:
+    build:
+      context: .
+      args:
+        - API_URL=$API_URL
